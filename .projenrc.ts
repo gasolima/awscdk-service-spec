@@ -1,6 +1,6 @@
 import * as pj from 'projen';
 import { AwsCdkIntegrationTest, DiffDb, TypeScriptWorkspace, YarnMonorepo } from './projenrc';
-import { RegionalSource, Role, SingleSource, SourceProcessing } from './projenrc/update-sources';
+import { RegionalSource, Role, ScriptSource, SingleSource, SourceProcessing } from './projenrc/update-sources';
 
 const workflowRunsOn = [
   // 'ubuntu-latest',
@@ -271,6 +271,12 @@ new SingleSource(repo, {
   dir: 'sources/StatefulResources',
   source:
     'https://raw.githubusercontent.com/aws-cloudformation/cfn-lint/main/src/cfnlint/data/AdditionalSpecs/StatefulResources.json',
+});
+
+new ScriptSource(repo, {
+  name: 'eventbridge-schema',
+  dir: 'sources/EventBridgeSchema',
+  scriptPath: 'scripts/eventbridge-schema-download.js',
 });
 
 repo.synth();
